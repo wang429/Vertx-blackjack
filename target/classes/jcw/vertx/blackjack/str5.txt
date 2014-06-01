@@ -1,0 +1,5 @@
+<button name="hit" onclick="send(this.name)">Hit</button>
+<button name="stay"  onclick="send(this.name)">Stay</button>
+
+</body>
+</html>

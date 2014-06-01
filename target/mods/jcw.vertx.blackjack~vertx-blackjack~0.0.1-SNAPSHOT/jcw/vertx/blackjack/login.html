@@ -1,0 +1,35 @@
+<html>
+<body>
+	<script>
+		var socket;
+		if (window.WebSocket) {
+			socket = new WebSocket("ws://localhost:8080/signin");
+			socket.onmessage = function(event) {
+				window.location.href = "http://localhost:8080/blackjack/" + event.data
+			};
+		} else {
+			alert("Your browser does not support Websockets. (Use Chrome)");
+		}
+
+		function send(message) {
+			if (!window.WebSocket) {
+				return;
+			}
+			if (socket.readyState == WebSocket.OPEN) {
+				if (message.indexOf('/') < 0) {
+					socket.send(message);
+				} else {
+					alert("username cannot have \'/\'.");
+				}
+			} else {
+				alert("The socket is not open.");
+			}
+		}
+	</script>
+	
+	<form onsubmit="return false;">
+		Username: <input type="text" name="username" />
+		<input type="button" value="Join" onclick="send(this.form.username.value)" />
+	</form>
+</body>
+</html>

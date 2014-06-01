@@ -1,0 +1,37 @@
+<html>
+<head><title>Web Socket Test</title></head>
+<body>
+<script>
+var socket;
+var path = window.location.pathname.split('/');
+var playerId = path[2];
+if (window.WebSocket) {
+	socket = new WebSocket("ws://localhost:8080/blackjack");
+	socket.onmessage = function(event) {
+		if(event.data.charAt(4) == 'W' || event.data.charAt(4) == 'L') {
+			alert(event.data);
+		} 
+		window.location.reload(true);
+	};
+	socket.onopen = function(event) {
+	};
+	socket.onclose = function(event) {
+		alert("Web Socket closed.");
+	};
+} else {
+	alert("Your browser does not support Websockets. (Use Chrome)");
+}
+
+function send(message) {
+if (!window.WebSocket) {
+	return;
+}
+if (socket.readyState == WebSocket.OPEN) {
+	socket.send(message + playerId);
+} else {
+	alert("The socket is not open.");
+}
+}
+</script>
+
+<p>Dealer:</p>
